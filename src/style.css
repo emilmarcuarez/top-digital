@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap');
+
+:root {
+  /* Premium Dark Theme */
+  --bg-primary: #0d0d0d;
+  --bg-secondary: #161616;
+  --bg-accent: #ff6b35; /* Vibrant Orange */
+  --bg-accent-soft: rgba(255, 107, 53, 0.1);
+  
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-muted: #666666;
+  
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  
+  --radius-lg: 24px;
+  --radius-md: 12px;
+  --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  
+  --container-max: 1200px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.section-title {
+  font-size: 3rem;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+@media (max-width: 968px) {
+  .section-title { font-size: 2.5rem; }
+}
+
+@media (max-width: 600px) {
+  .section-title { font-size: 2rem; margin-bottom: 1.25rem; }
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.section {
+  padding: 8rem 0;
+}
+
+.accent-text {
+  color: var(--bg-accent);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  font-weight: 600;
+  font-family: var(--font-heading);
+  transition: var(--transition);
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background-color: var(--bg-accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(255, 107, 53, 0.3);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: white;
+}
+
+/* Reveal Animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in {
+  /* Keep existing for immediate elements if needed */
+  animation: fadeInUp 1s ease forwards;
+}
+
+/* Scroll Smoothing (CSS Only) */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (max-width: 600px) {
+  .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+  }
+}
