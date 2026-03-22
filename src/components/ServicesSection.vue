@@ -37,16 +37,14 @@
                 </div>
               </div>
               <div class="modal-visuals">
-                <div class="visual-main">
+                <div class="visual-item main-visual">
                   <img src="../assets/imagen2.jpg" alt="Muestra Principal" />
                 </div>
-                <div class="visual-sub">
-                  <div class="visual-wrapper">
-                    <img src="../assets/imagen3.jpg" alt="Detalle A" />
-                  </div>
-                  <div class="visual-wrapper">
-                    <img src="../assets/imagen4.jpg" alt="Detalle B" />
-                  </div>
+                <div class="visual-item sub-visual">
+                  <img src="../assets/imagen3.jpg" alt="Detalle A" />
+                </div>
+                <div class="visual-item sub-visual">
+                  <img src="../assets/imagen4.jpg" alt="Detalle B" />
                 </div>
               </div>
             </div>
@@ -260,44 +258,25 @@ const closeModal = () => {
 .modal-visuals {
   flex: 1.2;
   padding: 1.5rem 1.5rem 1.5rem 0;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 2fr 1fr;
   gap: 1rem;
   background: var(--bg-primary);
 }
 
-.visual-main {
-  flex: 2;
+.visual-item {
   border-radius: var(--radius-md);
   overflow: hidden;
   box-shadow: 0 10px 20px rgba(0,0,0,0.5);
   position: relative;
 }
 
-.visual-main img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
+.main-visual {
+  grid-column: 1 / -1;
 }
 
-.visual-sub {
-  flex: 1;
-  display: flex;
-  gap: 1rem;
-}
-
-.visual-wrapper {
-  flex: 1;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-  position: relative;
-}
-
-.visual-wrapper img {
+.visual-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -307,7 +286,7 @@ const closeModal = () => {
   transition: var(--transition);
 }
 
-.visual-wrapper:hover img {
+.visual-item:hover img {
   transform: scale(1.05);
 }
 
@@ -339,22 +318,34 @@ const closeModal = () => {
     height: auto;
     max-height: 85vh;
     overflow-y: auto;
+    overflow-x: hidden;
   }
   
-  /* UX REDESIGN: Images on top, Text below (Like a modern App Product Card) */
   .modal-visuals {
     order: 1;
-    padding: 1.5rem 1.5rem 0.5rem 1.5rem;
-    height: auto;
+    padding: 1.5rem 1.5rem 1rem 1.5rem;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+    flex: none; /* Crucial: stops height squishing */
   }
   
-  .visual-main {
-    min-height: 250px;
+  .visual-item {
+    flex: 0 0 85%; /* Creates horizontal carousel peek effect */
+    height: 280px;
+    scroll-snap-align: center;
   }
+  
+  /* Reset desktop grid limits */
+  .main-visual { grid-column: auto; grid-row: auto; }
   
   .modal-info {
     order: 2;
     padding: 1.5rem;
+    flex: none; /* Crucial: text determines exact height */
+    overflow-y: visible; /* Let the parent .modal-body do all scrolling */
   }
   
   .modal-title {
@@ -374,21 +365,18 @@ const closeModal = () => {
     width: 38px;
     height: 38px;
     font-size: 1.5rem;
-    background: rgba(0,0,0,0.7);
+    background: rgba(0,0,0,0.8);
     backdrop-filter: blur(8px);
     border: 1px solid rgba(255,255,255,0.1);
   }
 
   .modal-visuals {
-    padding: 1rem 1rem 0.5rem 1rem;
+    padding: 1rem;
   }
 
-  .visual-main {
-    min-height: 200px;
-  }
-
-  .visual-wrapper {
-    height: 120px;
+  .visual-item {
+    height: 220px;
+    flex: 0 0 90%;
   }
 
   .modal-info {
