@@ -20,30 +20,33 @@
       </div>
       
       <div class="visual-content reveal" v-reveal style="transition-delay: 0.2s">
+        <div class="textile-orbit" aria-hidden="true">
+          <span></span>
+          <span></span>
+        </div>
+
         <div class="apparel-grid">
-          <div class="apparel-item" :class="getItemClass(0)">
-            <img src="../assets/franelas.png" alt="Franelas Custom" />
-          </div>
-          <div class="apparel-item" :class="getItemClass(1)">
-            <img src="../assets/jersey.png" alt="Jerseys Deportivos" />
-          </div>
-          <div class="apparel-item" :class="getItemClass(2)">
-            <img src="../assets/chaqueta.png" alt="Chaquetas" />
+          <div
+            v-for="(item, index) in apparelItems"
+            :key="item.label"
+            class="apparel-item"
+            :class="getItemClass(index)"
+          >
+            <img :src="item.image" :alt="item.alt" />
           </div>
         </div>
-        
+
         <div class="tags-arc">
-          <div class="apparel-tag tag-left" 
-               :class="{ 'accent-tag': activeIndex === 0 }" 
-               @click="setActive(0)">Franelas</div>
-               
-          <div class="apparel-tag tag-center" 
-               :class="{ 'accent-tag': activeIndex === 1 }" 
-               @click="setActive(1)">Jerseys</div>
-               
-          <div class="apparel-tag tag-right" 
-               :class="{ 'accent-tag': activeIndex === 2 }" 
-               @click="setActive(2)">Chaquetas</div>
+          <button
+            v-for="(item, index) in apparelItems"
+            :key="item.label"
+            class="apparel-tag"
+            :class="[item.tagClass, { 'accent-tag': activeIndex === index }]"
+            type="button"
+            @click="setActive(index)"
+          >
+            {{ item.label }}
+          </button>
         </div>
       </div>
     </div>
@@ -51,12 +54,51 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
+import franelasImage from '../assets/franelas.png'
+import jerseyImage from '../assets/jersey.png'
+import chaquetaImage from '../assets/chaqueta.png'
 
 const activeIndex = ref(1) // 1 = Jerseys (Center by default)
+let textileTimer
+
+const apparelItems = [
+  {
+    label: 'Franelas',
+    tagClass: 'tag-left',
+    image: franelasImage,
+    alt: 'Franelas personalizadas'
+  },
+  {
+    label: 'Jerseys',
+    tagClass: 'tag-center',
+    image: jerseyImage,
+    alt: 'Jerseys deportivos personalizados'
+  },
+  {
+    label: 'Chaquetas',
+    tagClass: 'tag-right',
+    image: chaquetaImage,
+    alt: 'Chaquetas personalizadas'
+  }
+]
+
+const nextItem = () => {
+  activeIndex.value = (activeIndex.value + 1) % apparelItems.length
+}
+
+const startTimer = () => {
+  textileTimer = window.setInterval(nextItem, 3600)
+}
+
+const resetTimer = () => {
+  window.clearInterval(textileTimer)
+  startTimer()
+}
 
 const setActive = (index) => {
   activeIndex.value = index
+  resetTimer()
 }
 
 const getItemClass = (itemIndex) => {
@@ -70,6 +112,12 @@ const getItemClass = (itemIndex) => {
     return itemIndex === 0 ? 'item-right' : 'item-left'
   }
 }
+
+onMounted(startTimer)
+
+onUnmounted(() => {
+  window.clearInterval(textileTimer)
+})
 </script>
 
 <style scoped>

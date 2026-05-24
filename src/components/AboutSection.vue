@@ -1,223 +1,445 @@
+<script setup>
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import imageIvoo from '../assets/imagen4.jpg'
+import imageWings from '../assets/imagen3.jpg'
+import imageFarma from '../assets/imagen2.jpg'
+import imagePrint from '../assets/imagen1.jpg'
+
+const activeStory = ref(0)
+let storyTimer
+
+const stories = [
+  {
+    image: imageIvoo,
+    label: 'Gran formato',
+    title: 'Fachadas que convierten espacios en marca',
+    copy: 'Intervenciones visibles, limpias y pensadas para dominar el entorno urbano.'
+  },
+  {
+    image: imageWings,
+    label: 'Material POP',
+    title: 'Piezas listas para vender desde el primer vistazo',
+    copy: 'Stands, exhibidores y elementos de activacion con presencia real en punto de venta.'
+  },
+  {
+    image: imageFarma,
+    label: 'Instalacion',
+    title: 'Impacto visible de dia, de noche y a distancia',
+    copy: 'Montajes de alto formato que conservan fuerza visual incluso en escenarios exigentes.'
+  },
+  {
+    image: imagePrint,
+    label: 'Impresion',
+    title: 'Color, detalle y consistencia en cada pieza',
+    copy: 'Produccion cuidada desde el archivo hasta el acabado final.'
+  }
+]
+
+const currentStory = computed(() => stories[activeStory.value])
+
+const getStoryPosition = (index) => {
+  const offset = (index - activeStory.value + stories.length) % stories.length
+  return `position-${offset}`
+}
+
+const nextStory = () => {
+  activeStory.value = (activeStory.value + 1) % stories.length
+}
+
+const selectStory = (index) => {
+  activeStory.value = index
+}
+
+onMounted(() => {
+  storyTimer = window.setInterval(nextStory, 3800)
+})
+
+onUnmounted(() => {
+  window.clearInterval(storyTimer)
+})
+</script>
+
 <template>
   <section id="nosotros" class="section about">
-    <div class="container about-container">
-      
-      <div class="about-content reveal" v-reveal>
-        <div class="section-header">
-          <span class="eyebrow accent-text">Sobre Nosotros</span>
-          <h2 class="section-title">Nuestra Esencia</h2>
-          <p class="intro-text">
-            Más de una década transformando espacios y marcas a través de soluciones de impresión de alto impacto.
+    <div class="container">
+      <div class="about-heading reveal" v-reveal>
+        <span class="eyebrow accent-text">Sobre nosotros</span>
+        <h2 class="section-title">Nuestra esencia</h2>
+        <p>
+          Mas de una decada transformando ideas en piezas visuales que se sienten
+          presentes, precisas y memorables.
+        </p>
+      </div>
+
+      <div class="story-carousel reveal" v-reveal>
+        <div class="story-stage">
+          <article
+            v-for="(story, index) in stories"
+            :key="story.title"
+            class="story-card"
+            :class="getStoryPosition(index)"
+          >
+            <img :src="story.image" :alt="story.title" />
+            <div class="story-overlay"></div>
+            <div class="story-content">
+              <span>{{ story.label }}</span>
+              <h3>{{ story.title }}</h3>
+            </div>
+          </article>
+        </div>
+
+        <aside class="story-panel">
+          <span>Proyecto destacado</span>
+          <h3>{{ currentStory.label }}</h3>
+          <p>{{ currentStory.copy }}</p>
+
+          <div class="story-dots" aria-hidden="true">
+            <button
+              v-for="(_, index) in stories"
+              :key="index"
+              type="button"
+              :class="{ active: index === activeStory }"
+              @click="selectStory(index)"
+            ></button>
+          </div>
+        </aside>
+      </div>
+
+      <div class="essence-strip reveal" v-reveal>
+        <article class="strip-card metric">
+          <strong>10+</strong>
+          <span>Anos de experiencia</span>
+        </article>
+
+        <article class="strip-card">
+          <span>01 / Mision</span>
+          <p>
+            Brindar soluciones profesionales en impresion, corporeos, diseno y
+            ambientacion con comunicacion clara y tecnologia de vanguardia.
           </p>
-        </div>
+        </article>
 
-        <div class="core-values">
-          <div class="value-item">
-            <h3 class="value-title">Misión</h3>
-            <p class="value-desc">
-              Brindar a nuestros clientes productos y servicios profesionales en impresiones, fabricación de corpóreos, diseño y ambientación de espacios, mediante un proceso de comunicación efectivo, respaldados por un grupo interdisciplinario, valores y tecnología de vanguardia que beneficien a nuestros clientes, empresa y a la comunidad.
-            </p>
-          </div>
-          
-          <div class="value-item highlight-box">
-            <h3 class="value-title">Visión</h3>
-            <p class="value-desc">
-              Ser líderes en posicionamiento de marcas utilizando la fabricación de corpóreos en materiales de vanguardia, diseños e impresiones de alta calidad para lograr alcanzar en los clientes el impacto necesario en su entorno, manejando altos estándares de calidad.
-            </p>
-          </div>
-        </div>
+        <article class="strip-card">
+          <span>02 / Vision</span>
+          <p>
+            Ser referentes en posicionamiento visual de marcas con materiales,
+            acabados y ejecuciones de alto nivel.
+          </p>
+        </article>
       </div>
-
-      <div class="about-visual reveal" v-reveal style="transition-delay: 0.2s">
-        <div class="image-wrapper main-img">
-          <img src="../assets/imagen5.jpg" alt="Nuestro Equipo" />
-        </div>
-        <div class="image-wrapper floating-img">
-          <img src="../assets/imagen2.jpg" alt="Instalaciones" />
-        </div>
-        
-        <div class="experience-badge glass">
-          <span class="number">10+</span>
-          <span class="text">Años de<br>Experiencia</span>
-        </div>
-      </div>
-
     </div>
   </section>
 </template>
 
 <style scoped>
 .about {
-  background-color: var(--bg-primary);
-  overflow: hidden;
-}
-
-.about-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5rem;
-  align-items: center;
-}
-
-.intro-text {
-  font-size: 1.25rem;
-  color: var(--text-secondary);
-  margin-bottom: 3rem;
-  line-height: 1.6;
-}
-
-.core-values {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-}
-
-.value-title {
-  font-size: 1.8rem;
-  color: var(--text-primary);
-  margin-bottom: 1rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.value-title::before {
-  content: '';
-  display: block;
-  width: 30px;
-  height: 3px;
-  background-color: var(--bg-accent);
-}
-
-.value-desc {
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-  line-height: 1.8;
-}
-
-.highlight-box {
-  background: var(--bg-secondary);
-  padding: 2rem;
-  border-radius: var(--radius-md);
-  border-left: 4px solid var(--bg-accent);
-}
-
-.highlight-box .value-title::before {
-  display: none;
-}
-
-/* Visual Side */
-.about-visual {
   position: relative;
-  height: 550px;
-  width: 100%;
-}
-
-.image-wrapper {
-  border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-  position: absolute;
+  background:
+    radial-gradient(circle at 70% 10%, rgba(255, 107, 53, 0.13), transparent 24rem),
+    linear-gradient(180deg, #0b0b0b 0%, #101010 52%, #0b0b0b 100%);
 }
 
-.image-wrapper img {
+.about::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+  background-size: 88px 88px;
+  mask-image: linear-gradient(180deg, transparent, black 18%, black 82%, transparent);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.about .container {
+  position: relative;
+}
+
+.about-heading {
+  max-width: 760px;
+  margin-bottom: 2.4rem;
+}
+
+.about-heading p {
+  max-width: 650px;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  line-height: 1.65;
+}
+
+.story-carousel {
+  display: grid;
+  grid-template-columns: minmax(480px, 1fr) minmax(280px, 0.42fr);
+  gap: 1.2rem;
+  align-items: stretch;
+  min-height: 560px;
+  margin-top: 0.5rem;
+}
+
+.story-stage {
+  position: relative;
+  min-height: 560px;
+  perspective: 1000px;
+}
+
+.story-card {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: #151515;
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.36);
+  isolation: isolate;
+  transition:
+    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.55s ease,
+    filter 0.55s ease;
+}
+
+.story-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: var(--transition);
+  filter: saturate(1.05) contrast(1.04);
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.image-wrapper:hover img {
-  transform: scale(1.03);
-}
-
-.main-img {
-  top: 0;
-  right: 0;
-  width: 80%;
-  height: 80%;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.floating-img {
-  bottom: 0;
-  left: 0;
-  width: 60%;
-  height: 50%;
-  border: 10px solid var(--bg-primary); /* Thick border to separate from main img */
-  z-index: 2;
-  box-shadow: -10px 10px 40px rgba(0,0,0,0.8);
-}
-
-.experience-badge {
+.story-overlay {
   position: absolute;
-  top: 15%;
-  left: -10%;
-  padding: 1.5rem 2.5rem;
-  border-radius: var(--radius-lg);
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  background-color: var(--bg-secondary); /* Solid background to make it visible! */
-  border: 1px solid rgba(255, 107, 53, 0.3);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.05) 18%, rgba(0,0,0,0.86) 100%),
+    radial-gradient(circle at 25% 85%, rgba(255, 107, 53, 0.24), transparent 16rem);
 }
 
-.number {
-  font-family: var(--font-heading);
-  font-size: 3.5rem;
+.story-content {
+  position: absolute;
+  left: 2rem;
+  right: 2rem;
+  bottom: 1.8rem;
+  z-index: 2;
+}
+
+.story-content span,
+.strip-card span {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.68rem;
   font-weight: 800;
-  color: var(--bg-accent);
-  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
-.text {
-  font-size: 0.85rem;
-  font-weight: 600;
+.story-content h3 {
+  max-width: 520px;
+  margin: 0.55rem 0 0;
+  color: white;
+  font-family: var(--font-heading);
+  font-size: clamp(1.15rem, 1.55vw, 1.55rem);
+  line-height: 1.12;
   text-transform: uppercase;
-  color: var(--text-primary);
-  line-height: 1.4;
-  letter-spacing: 0.05em;
+}
+
+.story-card:hover img {
+  transform: scale(1.06);
+}
+
+.story-card.position-0 {
+  z-index: 4;
+  opacity: 1;
+  filter: saturate(1);
+  transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+}
+
+.story-card.position-1 {
+  z-index: 3;
+  opacity: 0.58;
+  filter: saturate(0.75) brightness(0.74);
+  transform: translate3d(2rem, 1.4rem, -90px) rotate(2.5deg) scale(0.93);
+}
+
+.story-card.position-2 {
+  z-index: 2;
+  opacity: 0.32;
+  filter: saturate(0.65) brightness(0.62);
+  transform: translate3d(4rem, 2.7rem, -160px) rotate(4deg) scale(0.86);
+}
+
+.story-card.position-3 {
+  z-index: 1;
+  opacity: 0;
+  filter: saturate(0.55) brightness(0.5);
+  transform: translate3d(-2rem, 3rem, -220px) rotate(-4deg) scale(0.82);
+}
+
+.story-card.position-0 .story-content {
+  animation: contentIn 0.72s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.story-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 560px;
+  padding: 1.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 80% 18%, rgba(255, 107, 53, 0.22), transparent 12rem),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.025)),
+    rgba(255, 255, 255, 0.03);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.24);
+}
+
+.story-panel span {
+  color: var(--bg-accent);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.story-panel h3 {
+  max-width: 100%;
+  margin: 0.65rem 0 1rem;
+  color: white;
+  font-size: clamp(1.35rem, 1.8vw, 2rem);
+  line-height: 1.05;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+}
+
+.story-panel p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.story-dots {
+  display: flex;
+  gap: 0.55rem;
+  margin-top: 2rem;
+}
+
+.story-dots button {
+  width: 2.35rem;
+  height: 3px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+
+.story-dots button.active {
+  background: var(--bg-accent);
+  box-shadow: 0 0 18px rgba(255, 107, 53, 0.45);
+}
+
+.essence-strip {
+  display: grid;
+  grid-template-columns: 0.62fr 1fr 1fr;
+  gap: 1.1rem;
+  margin-top: 1.1rem;
+}
+
+.strip-card {
+  min-height: 150px;
+  padding: 1.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.025)),
+    rgba(255, 255, 255, 0.03);
+}
+
+.strip-card p {
+  margin: 0.9rem 0 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.metric {
+  background:
+    radial-gradient(circle at 85% 20%, rgba(255, 107, 53, 0.28), transparent 10rem),
+    rgba(255, 107, 53, 0.08);
+  border-color: rgba(255, 107, 53, 0.28);
+}
+
+.metric strong {
+  display: block;
+  color: var(--bg-accent);
+  font-family: var(--font-heading);
+  font-size: 4.3rem;
+  line-height: 0.9;
+}
+
+.metric span {
+  display: block;
+  max-width: 150px;
+  color: white;
 }
 
 @media (max-width: 1024px) {
-  .about-container {
+  .story-carousel,
+  .essence-strip {
     grid-template-columns: 1fr;
-    gap: 4rem;
-  }
-  
-  .about-visual {
-    height: 500px;
-    max-width: 650px;
-    margin: 0 auto;
   }
 
-  .experience-badge {
-    left: 0;
-    top: 5%;
+  .story-carousel,
+  .story-stage,
+  .story-panel {
+    min-height: 420px;
+  }
+
+  .story-panel {
+    justify-content: center;
   }
 }
 
 @media (max-width: 600px) {
-  .about-visual {
-    height: 350px;
+  .about-heading p {
+    font-size: 1rem;
   }
-  .number {
-    font-size: 2.5rem;
+
+  .story-carousel,
+  .story-stage,
+  .story-panel {
+    min-height: 360px;
   }
-  .experience-badge {
-    padding: 1rem 1.5rem;
-    gap: 1rem;
-    top: -5%;
+
+  .story-content {
+    left: 1.25rem;
+    right: 1.25rem;
+    bottom: 1.25rem;
   }
-  .main-img {
-    width: 90%;
-    height: 75%;
+
+  .strip-card {
+    min-height: auto;
   }
-  .floating-img {
-    width: 70%;
-    height: 45%;
+
+  .story-card.position-1 {
+    transform: translate3d(1rem, 0.9rem, -80px) rotate(2deg) scale(0.94);
+  }
+
+  .story-card.position-2 {
+    transform: translate3d(1.8rem, 1.8rem, -140px) rotate(3deg) scale(0.88);
+  }
+}
+
+@keyframes contentIn {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>
