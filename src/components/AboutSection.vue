@@ -391,6 +391,14 @@ onUnmounted(() => {
     grid-template-columns: 1fr;
   }
 
+  .story-panel {
+    order: 1;
+  }
+
+  .story-stage {
+    order: 2;
+  }
+
   .story-carousel,
   .story-stage,
   .story-panel {
