@@ -130,7 +130,6 @@ onUnmounted(() => {
           @click="goToProject(index)"
         >
           <img :src="project.image" :alt="project.title" />
-          <span>{{ project.tag }}</span>
           <strong>{{ project.title }}</strong>
         </button>
       </div>
@@ -344,7 +343,6 @@ onUnmounted(() => {
   background: linear-gradient(180deg, transparent, rgba(0,0,0,0.82));
 }
 
-.project-thumb span,
 .project-thumb strong {
   position: absolute;
   left: 1rem;
@@ -352,17 +350,13 @@ onUnmounted(() => {
   z-index: 1;
 }
 
-.project-thumb span {
-  bottom: 3.05rem;
-}
-
 .project-thumb strong {
-  bottom: 0.9rem;
+  bottom: 1.1rem;
   color: white;
   font-family: var(--font-heading);
-  font-size: clamp(1.35rem, 1.8vw, 2rem);
+  font-size: clamp(1.05rem, 1.28vw, 1.38rem);
   font-weight: 700;
-  line-height: 0.95;
+  line-height: 1;
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
@@ -452,7 +446,7 @@ onUnmounted(() => {
   }
 
   .project-thumb strong {
-    font-size: 1.35rem;
+    font-size: 1.05rem;
   }
 }
 </style>

@@ -93,7 +93,6 @@ onUnmounted(() => {
 
         <div class="hero-orbit" :key="`plate-${activeSlideIndex}`">
           <span class="trace trace-one"></span>
-          <span class="trace trace-two"></span>
           <span class="trace trace-three"></span>
 
           <div class="showcase-number">0{{ activeSlideIndex + 1 }}</div>
@@ -199,11 +198,12 @@ onUnmounted(() => {
 .hero-container {
   position: relative;
   z-index: 10;
-  width: 100%;
+  width: min(calc(100vw - 7rem), var(--container-max));
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 0.94fr) minmax(390px, 0.58fr);
+  grid-template-columns: minmax(0, 0.95fr) minmax(360px, 0.52fr);
   align-items: center;
-  gap: 3rem;
+  gap: clamp(2rem, 4vw, 5rem);
 }
 
 .hero-content {
@@ -216,7 +216,7 @@ onUnmounted(() => {
   flex-direction: column;
   gap: 0.18rem;
   max-width: 980px;
-  font-size: clamp(4.35rem, 7.15vw, 8rem);
+  font-size: clamp(4rem, 6.25vw, 7rem);
   line-height: 0.86;
   margin-bottom: 2.2rem;
   font-weight: 800;
@@ -265,7 +265,7 @@ onUnmounted(() => {
 
 .hero-stage {
   position: relative;
-  min-height: 500px;
+  min-height: min(46vw, 520px);
   display: grid;
   place-items: center;
   --stage-accent: #ff6b35;
@@ -274,7 +274,7 @@ onUnmounted(() => {
 
 .showcase-glow {
   position: absolute;
-  width: min(34vw, 470px);
+  width: min(31vw, 450px);
   aspect-ratio: 1;
   border-radius: 50%;
   background:
@@ -288,7 +288,7 @@ onUnmounted(() => {
 
 .hero-orbit {
   position: relative;
-  width: min(34vw, 470px);
+  width: min(31vw, 450px);
   aspect-ratio: 0.92;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 28px;
@@ -342,9 +342,7 @@ onUnmounted(() => {
 }
 
 .trace-two {
-  top: 54%;
-  left: 18%;
-  right: 9%;
+  display: none;
 }
 
 .trace-three {
