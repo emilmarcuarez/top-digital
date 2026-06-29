@@ -2,8 +2,8 @@
   <footer class="footer bg-dark">
     <div class="container footer-content">
       <div class="footer-brand">
-        <img src="../assets/logo Top Digital.png" alt="Top Digital Logo" class="footer-logo" />
-        <p>Líderes en impresión digital y soluciones visuales corporativas.</p>
+        <img src="../assets/logo Top Digital.png" alt="Logo de Top Digital Group" class="footer-logo" />
+        <p>Imprenta en Puerto Ordaz con soluciones profesionales en impresión, corpóreos, diseño y ambientación.</p>
         <div class="socials">
           <a href="https://www.instagram.com/topdigitalgroup_/" target="_blank" rel="noopener noreferrer" class="social-link" title="Instagram">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
@@ -21,7 +21,7 @@
           <a href="#proyectos">Proyectos</a>
           <a href="#contacto">Contacto</a>
         </div>
-        <div class="link-group">
+        <div class="link-group link-top-digital">
           <h4>Soluciones</h4>
           <a href="#servicios">Rotulación</a>
           <a href="#servicios">Corpóreos</a>

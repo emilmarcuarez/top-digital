@@ -35,7 +35,7 @@ onMounted(() => {
     <Transition name="preloader-fade">
       <div v-if="isLoading" class="site-preloader">
         <div class="preloader-mark">
-          <img :src="logo" alt="Top Digital" />
+          <img :src="logo" alt="Top Digital Group" />
           <span class="preloader-ring"></span>
         </div>
       </div>

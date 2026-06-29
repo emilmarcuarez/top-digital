@@ -1,41 +1,59 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import imageIvoo from '../assets/imagen4.jpg'
-import imageWings from '../assets/imagen3.jpg'
-import imageFarma from '../assets/imagen2.jpg'
-import imagePrint from '../assets/imagen1.jpg'
+import imageGigantografia from '../assets/valla_cashea.jpg'
+import imageCorporeo from '../assets/corporeo.jpg'
+import imageInstalacion from '../assets/instalacion_mango.jpg'
+import imageLetrasAcrilico from '../assets/letras-acrilico.jpeg'
 
 const activeStory = ref(0)
 let storyTimer
 
 const stories = [
   {
-    image: imageIvoo,
-    label: 'Gran formato',
-    title: 'Fachadas que convierten espacios en marca',
-    copy: 'Intervenciones visibles, limpias y pensadas para dominar el entorno urbano.'
+    media: imageGigantografia,
+    type: 'image',
+    position: '50% 0%',
+    panEndPosition: '50% 100%',
+    label: 'Gigantografia',
+    title: 'Formatos grandes para mensajes que se ven a distancia',
+    copy: 'Vallas, lonas y piezas de gran escala con presencia clara, alto impacto y acabados resistentes.'
   },
   {
-    image: imageWings,
-    label: 'Material POP',
-    title: 'Piezas listas para vender desde el primer vistazo',
-    copy: 'Stands, exhibidores y elementos de activacion con presencia real en punto de venta.'
+    media: imageCorporeo,
+    type: 'image',
+    position: '50% 0%',
+    panEndPosition: '50% 100%',
+    label: 'Corporeo',
+    title: 'Volumen, relieve y marca con presencia fisica',
+    copy: 'Elementos corporeos para fachadas, recepciones y espacios comerciales con terminaciones limpias.'
   },
   {
-    image: imageFarma,
+    media: imageInstalacion,
+    type: 'image',
+    position: '50% 0%',
+    panEndPosition: '50% 100%',
     label: 'Instalacion',
-    title: 'Impacto visible de dia, de noche y a distancia',
-    copy: 'Montajes de alto formato que conservan fuerza visual incluso en escenarios exigentes.'
+    title: 'Montajes precisos para que cada pieza quede lista',
+    copy: 'Instalacion profesional en sitio, cuidando alineacion, fijacion y presentacion final.'
   },
   {
-    image: imagePrint,
-    label: 'Impresion',
-    title: 'Color, detalle y consistencia en cada pieza',
-    copy: 'Produccion cuidada desde el archivo hasta el acabado final.'
+    media: imageLetrasAcrilico,
+    type: 'image',
+    position: 'center top',
+    label: 'Letras en acrilico',
+    title: 'Letras en acrilico',
+    copy: ''
   }
 ]
 
 const currentStory = computed(() => stories[activeStory.value])
+
+const getMediaStyle = (story) => ({
+  objectFit: 'cover',
+  objectPosition: story.position,
+  '--pan-start-position': story.position ?? '50% 0%',
+  '--pan-end-position': story.panEndPosition ?? '50% 100%'
+})
 
 const getStoryPosition = (index) => {
   const offset = (index - activeStory.value + stories.length) % stories.length
@@ -79,10 +97,26 @@ onUnmounted(() => {
             class="story-card"
             :class="getStoryPosition(index)"
           >
-            <img :src="story.image" :alt="story.title" />
+            <video
+              v-if="story.type === 'video'"
+              :src="story.media"
+              :style="getMediaStyle(story)"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              aria-hidden="true"
+            ></video>
+            <img
+              v-else
+              :src="story.media"
+              :alt="story.title"
+              :style="getMediaStyle(story)"
+            />
             <div class="story-overlay"></div>
             <div class="story-content">
-              <span>{{ story.label }}</span>
+              <span v-if="story.label !== story.title">{{ story.label }}</span>
               <h3>{{ story.title }}</h3>
             </div>
           </article>
@@ -91,7 +125,7 @@ onUnmounted(() => {
         <aside class="story-panel">
           <span>Proyecto destacado</span>
           <h3>{{ currentStory.label }}</h3>
-          <p>{{ currentStory.copy }}</p>
+          <p v-if="currentStory.copy">{{ currentStory.copy }}</p>
 
           <div class="story-dots" aria-hidden="true">
             <button
@@ -199,12 +233,14 @@ onUnmounted(() => {
     filter 0.55s ease;
 }
 
-.story-card img {
+.story-card img,
+.story-card video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   filter: saturate(1.05) contrast(1.04);
-  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: object-position;
+  transition: filter 0.55s ease;
 }
 
 .story-overlay {
@@ -243,10 +279,6 @@ onUnmounted(() => {
   text-transform: uppercase;
 }
 
-.story-card:hover img {
-  transform: scale(1.06);
-}
-
 .story-card.position-0 {
   z-index: 4;
   opacity: 1;
@@ -277,6 +309,14 @@ onUnmounted(() => {
 
 .story-card.position-0 .story-content {
   animation: contentIn 0.72s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.story-card.position-0 img {
+  animation: mediaPanVertical 6.2s ease-in-out infinite alternate;
+}
+
+.story-card.position-0 video {
+  animation: none;
 }
 
 .story-panel {
@@ -448,6 +488,15 @@ onUnmounted(() => {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes mediaPanVertical {
+  from {
+    object-position: var(--pan-start-position);
+  }
+  to {
+    object-position: var(--pan-end-position);
   }
 }
 </style>

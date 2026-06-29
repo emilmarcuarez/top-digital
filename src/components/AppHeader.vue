@@ -7,9 +7,9 @@
   >
     <div class="nav-shell">
       <div class="nav-topline">
-        <a href="#inicio" class="brand" aria-label="Top Digital">
+        <a href="#inicio" class="brand" aria-label="Top Digital Group">
           <span class="brand-mark">
-            <img src="../assets/logo Top Digital.png" alt="Top Digital Logo" class="logo-img" />
+            <img src="../assets/logo Top Digital.png" alt="Logo de Top Digital Group" class="logo-img" />
           </span>
           <span class="brand-copy">
             <strong>Top Digital</strong>

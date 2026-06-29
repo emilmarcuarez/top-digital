@@ -1,26 +1,17 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import imageFarma from '../assets/imagen2.jpg'
-import imageWings from '../assets/imagen3.jpg'
 import imageIvoo from '../assets/imagen4.jpg'
-import imagePrint from '../assets/imagen1.jpg'
+import imageProyectoDuncan from '../assets/proyectos-recientes-8.jpg'
+import imageProyectoCandela from '../assets/proyectos-recientes-candela.jpg'
+import imageProyectoIlaui from '../assets/proyectos-recientes-ilaui.jpeg'
+import imageProyectoDigitel from '../assets/stands-corporativos.jpg'
+import imageProyectoOpticolor from '../assets/proyectos-recientes-opticolor.jpeg'
+import imageProyectoOutdoor from '../assets/proyectos-recientes-outdoor.jpeg'
 
 const activeIndex = ref(0)
 let timer
 
 const projects = [
-  {
-    title: 'Farmahumana',
-    tag: 'Instalacion',
-    image: imageFarma,
-    text: 'Valla de gran formato con presencia nocturna, alta lectura y montaje visible a distancia.'
-  },
-  {
-    title: 'Wings Bros',
-    tag: 'Punto de venta',
-    image: imageWings,
-    text: 'Material POP y presencia de marca para un espacio comercial con personalidad y recordacion.'
-  },
   {
     title: 'Ivoo',
     tag: 'Fachadas',
@@ -28,34 +19,40 @@ const projects = [
     text: 'Rotulacion arquitectonica, fachada comercial y volumen visual para una marca de alto trafico.'
   },
   {
-    title: 'Siragon',
-    tag: 'Produccion',
-    image: imagePrint,
-    text: 'Piezas impresas con color consistente para campanas, lanzamientos y comunicacion visual.'
+    title: 'Duncan',
+    tag: 'Proyecto reciente',
+    image: imageProyectoDuncan,
+    text: 'Produccion e instalacion visual para una marca con presencia comercial de alto trafico.'
   },
   {
-    title: 'Campana retail',
-    tag: 'Impresion',
-    image: imagePrint,
-    text: 'Produccion de piezas promocionales para comunicar ofertas, recorridos y mensajes de marca.'
+    title: 'Candela',
+    tag: 'Proyecto reciente',
+    image: imageProyectoCandela,
+    text: 'Soluciones visuales para retail con acabados limpios y alto impacto de marca.'
   },
   {
-    title: 'Ambientacion comercial',
-    tag: 'Espacios',
-    image: imageWings,
-    text: 'Intervenciones visuales para convertir locales, puntos de venta y zonas de atencion en experiencias.'
+    title: 'Ilahui',
+    tag: 'Proyecto reciente',
+    image: imageProyectoIlaui,
+    text: 'Elementos visuales para punto de venta pensados para visibilidad, lectura y recordacion.'
   },
   {
-    title: 'Fachada premium',
-    tag: 'Rotulacion',
-    image: imageIvoo,
-    text: 'Avisos y fachadas con terminaciones limpias para elevar la presencia exterior del negocio.'
+    title: 'Digitel',
+    tag: 'Proyecto reciente',
+    image: imageProyectoDigitel,
+    text: 'Stand corporativo con presencia de marca y acabados pensados para eventos comerciales.'
   },
   {
-    title: 'Gran formato',
-    tag: 'Gigantografia',
-    image: imageFarma,
-    text: 'Soluciones de gran escala para marcas que necesitan ser vistas desde lejos y recordadas rapido.'
+    title: 'Opticolor',
+    tag: 'Proyecto reciente',
+    image: imageProyectoOpticolor,
+    text: 'Aplicaciones de imagen comercial con terminaciones precisas para una presencia profesional.'
+  },
+  {
+    title: 'Outdoor',
+    tag: 'Proyecto reciente',
+    image: imageProyectoOutdoor,
+    text: 'Produccion de piezas exteriores para comunicar marca con visibilidad y resistencia.'
   }
 ]
 
@@ -93,7 +90,7 @@ onUnmounted(() => {
     <div class="container">
       <div class="projects-head reveal" v-reveal>
         <span class="eyebrow accent-text">Impulsamos marcas</span>
-        <h2 class="section-title">Proyectos Recientes</h2>
+        <h2 class="section-title">Proyectos Destacados</h2>
       </div>
 
       <div class="td-project-stage reveal" v-reveal>
@@ -127,6 +124,10 @@ onUnmounted(() => {
           type="button"
           class="project-thumb"
           :class="{ active: index === activeIndex }"
+          :style="{
+            '--thumb-grow': index + 1,
+            '--thumb-height': `${150 + index * 16}px`
+          }"
           @click="goToProject(index)"
         >
           <img :src="project.image" :alt="project.title" />
@@ -306,15 +307,18 @@ onUnmounted(() => {
 .td-project-thumbs {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
   gap: 1rem;
   margin-top: 1rem;
 }
 
 .project-thumb {
   position: relative;
-  height: 230px;
+  flex: calc(var(--thumb-grow) * 0.16) 1 clamp(150px, 11vw, 230px);
+  height: var(--thumb-height);
+  min-height: 150px;
   padding: 0;
   border-color: rgba(255,255,255,0.12);
   cursor: pointer;
@@ -326,7 +330,7 @@ onUnmounted(() => {
 .project-thumb:hover {
   opacity: 1;
   border-color: rgba(255, 107, 53, 0.56);
-  transform: translateY(-3px);
+  transform: translateY(-5px) scale(1.02);
 }
 
 .project-thumb img {
@@ -404,7 +408,12 @@ onUnmounted(() => {
   }
 
   .td-project-thumbs {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+  }
+
+  .project-thumb {
+    flex-basis: calc(50% - 0.5rem);
+    height: clamp(160px, var(--thumb-height), 230px);
   }
 }
 
@@ -442,7 +451,8 @@ onUnmounted(() => {
   }
 
   .project-thumb {
-    height: 170px;
+    flex-basis: 100%;
+    height: clamp(150px, var(--thumb-height), 210px);
   }
 
   .project-thumb strong {

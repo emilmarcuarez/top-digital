@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref, onMounted, onUnmounted } from 'vue'
+import headerVideo from '../assets/header.mp4'
 
 const scrollY = ref(0)
 const activeSlideIndex = ref(0)
@@ -59,12 +60,17 @@ onUnmounted(() => {
 <template>
   <section id="inicio" class="hero">
     <div class="hero-bg">
-      <img
-        src="../assets/imagen1.jpg"
-        alt="Impresión de gran formato Top Digital"
-        class="bg-img"
-        :style="{ transform: `scale(1.12) translateY(${scrollY * 0.26}px)` }"
-      />
+      <video
+        class="bg-video"
+        :src="headerVideo"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-hidden="true"
+        :style="{ '--hero-scroll': `${scrollY * 0.26}px` }"
+      ></video>
       <div class="overlay"></div>
       <div class="print-grid" aria-hidden="true"></div>
       <div class="ink-burst ink-burst-one" aria-hidden="true"></div>
@@ -139,11 +145,18 @@ onUnmounted(() => {
   z-index: -1;
 }
 
-.bg-img {
-  width: 100%;
-  height: 100%;
+.bg-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vh;
+  height: 100vw;
+  min-width: 100vh;
+  min-height: 100vw;
   object-fit: cover;
   filter: brightness(0.72) contrast(1.14) saturate(1.12);
+  transform: translate(-50%, calc(-50% + var(--hero-scroll, 0px))) rotate(-270deg) scale(1.12);
+  transform-origin: center;
 }
 
 .overlay {
@@ -501,13 +514,86 @@ onUnmounted(() => {
   animation: progressFill 3.6s linear forwards;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1280px) {
   .hero-container {
     grid-template-columns: 1fr;
+    gap: 3rem;
   }
 
   .hero-stage {
-    display: none;
+    display: grid;
+    width: 100%;
+    min-height: 430px;
+    margin: 0 auto;
+  }
+
+  .showcase-glow {
+    width: min(58vw, 410px);
+  }
+
+  .hero-orbit {
+    width: min(62vw, 410px);
+  }
+}
+
+@media (min-width: 1281px) and (max-width: 1460px) {
+  .hero-container {
+    grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.48fr);
+    gap: clamp(1.5rem, 2.6vw, 3.2rem);
+  }
+
+  .hero-orbit,
+  .showcase-glow {
+    width: min(30vw, 410px);
+  }
+
+  .showcase-copy {
+    left: 1.75rem;
+    right: 1.55rem;
+    top: 1.9rem;
+  }
+
+  .showcase-copy small {
+    padding: 0.48rem 0.68rem;
+    font-size: 0.6rem;
+  }
+
+  .showcase-copy strong {
+    margin-top: 0.95rem;
+    font-size: clamp(1.75rem, 2.45vw, 2.35rem);
+  }
+
+  .showcase-copy p {
+    max-width: 245px;
+    margin-top: 0.85rem;
+    font-size: 0.76rem;
+    line-height: 1.38;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .showcase-tags {
+    left: 1.75rem;
+    right: 1.75rem;
+    bottom: 5.35rem;
+    gap: 0.34rem;
+  }
+
+  .showcase-tags span {
+    padding: 0.4rem 0.56rem;
+    font-size: 0.52rem;
+    letter-spacing: 0.09em;
+  }
+
+  .showcase-progress {
+    left: 1.75rem;
+    bottom: 1.55rem;
+  }
+
+  .showcase-progress span {
+    width: 1.9rem;
   }
 }
 
