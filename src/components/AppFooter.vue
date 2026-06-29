@@ -30,7 +30,7 @@
         <div class="link-group">
           <h4>Contacto</h4>
           <a href="mailto:gpatety.topdigitalgroup@gmail.com" class="text-wrapped">gpatety.topdigitalgroup@gmail.com</a>
-          <a href="tel:+584249377008">+58 424-9377008</a>
+          <a href="https://wa.me/584249377008" target="_blank" rel="noopener noreferrer">+58 424-9377008</a>
           <p class="loc-text">Centro Empresarial 21, Av. Paseo Caroní. Cdad. Guayana.</p>
         </div>
       </div>

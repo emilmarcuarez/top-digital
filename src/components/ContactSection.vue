@@ -264,7 +264,16 @@ onMounted(loadCountryCodes)
           </div>
           <div class="info-item">
             <span class="info-label">Contacto</span>
-            <p>gpatety.topdigitalgroup@gmail.com<br />+58 424-9377008</p>
+            <p>
+              gpatety.topdigitalgroup@gmail.com<br />
+              <a
+                href="https://wa.me/584249377008"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                +58 424-9377008
+              </a>
+            </p>
           </div>
         </div>
       </div>
@@ -421,6 +430,15 @@ onMounted(loadCountryCodes)
 .info-item p {
   font-size: 0.9rem;
   color: var(--text-secondary);
+}
+
+.info-item a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.info-item a:hover {
+  color: var(--bg-accent);
 }
 
 .contact-visual {
